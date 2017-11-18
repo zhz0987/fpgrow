@@ -66,6 +66,7 @@ def createInitSet(dataSet):
     retDict = {}  
     for trans in dataSet:  
         retDict[frozenset(trans)] = 1  
+        # retDict[frozenset(trans)] = retDict.get(frozenset(trans), 0) + 1 # correct 
     return retDict  
   
 def ascendTree(leafNode,prefixPath):  
@@ -102,15 +103,21 @@ def fpGrowth(dataSet, minSup=3):
     freqItems = []
     mineTree(myFPtree, myHeaderTab, minSup, set([]), freqItems)
     return freqItems
-     
+    
+import time
+
 if __name__ == "__main__":  
+    a = time.time()
     parsedDat = [line.split() for line in open('kosarak.dat').readlines()]
     initSet = createInitSet(parsedDat)
+    # print initSet
+    # exit()
     myFPtree, myHeaderTab = createTree(initSet, 100000)
     myFreqList = []
     mineTree(myFPtree, myHeaderTab, 100000, set([]), myFreqList)
-    len(myFreqList)
+    print len(myFreqList)
     print myFreqList
+    print time.time() - a
     # simpDat = loadSimpDat()  
     # print simpDat  
     # initSet = createInitSet(simpDat)  
